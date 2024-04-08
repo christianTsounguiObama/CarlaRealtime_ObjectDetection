@@ -2,9 +2,6 @@ import carla
 import random 
 import numpy as np
 import cv2
-from six import BytesIO
-from PIL import Image
-from six.moves.urllib.request import urlopen
 import tensorflow as tf
 import tensorflow_hub as hub
 from object_detection.utils import label_map_util
