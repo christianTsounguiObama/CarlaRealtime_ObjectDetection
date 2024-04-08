@@ -34,13 +34,9 @@ class CarlaInit():
         dataDict['image'] = np.reshape(np.copy(image.raw_data), (image.height, image.width, 4))
 
     def readSensor(self):
-        #global dataDict
-        #imageWidth = self.sensorBlueprint.get_attribute("image_size_x").as_int()
-        #imageHeight = self.sensorBlueprint.get_attribute("image_size_y").as_int()
-        #sensorData = {'image': np.zeros((imageHeight, imageWidth, 4))}
         self.sensor.listen(lambda image: self.callback(image))
 
-    def launchCarala(self, carname, sensorName):
+    def launchCarla(self, carname, sensorName):
         self.spawnActors(carname, 30)
         self.spawnSensor(sensorName)
         self.readSensor()
@@ -113,7 +109,7 @@ class ImageClassification():
 if __name__ == "__main__":
     dataDict = {}
     carlainit = CarlaInit(2000)
-    carlainit.launchCarala('vehicle.lincoln.mkz_2020', 'sensor.camera.rgb')
+    carlainit.launchCarla('vehicle.lincoln.mkz_2020', 'sensor.camera.rgb')
 
     detectionThreshold = 0.65
     tfhubModel = 'https://tfhub.dev/tensorflow/ssd_mobilenet_v2/fpnlite_640x640/1'
