@@ -1,6 +1,4 @@
 # CarlaRealtime_ImageClassification
-
-# CarlaRealtime_ImageClassification
 The aim of this script is to provide a template code to perform realtime image classification with Tensorflow.
 Here, the dynamic environment is simulated by Carla Simulator (0.9.15) and the object detection model trained on the 
 Coco dataset is fetched from TensorFlow hub (https://www.kaggle.com/models?publisher=tensorflow&tfhub-redirect=true). 
@@ -14,19 +12,19 @@ A window shows the realtime image classification as seen by the camera.
 ## Usage
 Once the carla server is up an running, the realtime classification is performed by running the command:
 ```bash
-python3 CarlaRealTime_ImageClassification.py
+python3 carlaRealTime_ImageClassification.py
 ```
 
 ## Python version and packages
-The code was written and tested with Python 3.10.12. The following packages might need to installed:
+The code was written and tested with Python 3.10.12, TensorFlow GPU, and Carla 0.9.15 on docker. To run the code, 
+the following python packages are required:
 - carla
-- random 
 - numpy
 - seaborn
-- cv2
+- opencv
 - tensorflow
-- tensorflow_hub
-- object_detection.utils
+- tensorflow-hub
+- object detection api
 
 ## Label map
 The detected objects are labeled based on the mscoco label map provided in the labels folder as .*pbtxt file.

@@ -1,3 +1,19 @@
+#!/usr/bin/env python3
+
+'''
+    The aim of this script is to provide a template code to perform realtime image classification with Tensorflow.
+Here, the dynamic environment is simulated by Carla Simulator (0.9.15) and the object detection model trained on the 
+Coco dataset is fetched from TensorFlow hub (https://www.kaggle.com/models?publisher=tensorflow&tfhub-redirect=true). 
+
+The script connects to carla server and spawns an ego vehicle and an RGB camera attached to it in the virtual world. 
+Then, further vehicles, i.e., 30 are spawned at random in the scene. The object detection model is then loaded from 
+TensorFlow hub and run to detect the objects in the field of view of ego vehicle's RGB camera.
+
+A window shows the realtime image classification as seen by the camera.
+
+Usage: python3 carlaRealTime_ImageClassification.py
+'''
+
 import carla
 import random 
 import numpy as np
@@ -8,6 +24,11 @@ from object_detection.utils import label_map_util
 import seaborn as sns
 
 class CarlaInit():
+    '''
+        This class containins the methods needed to connect to the carla server,
+        spawn vehicles and the ego camera, and set the vehicles to carla default 
+        autopilot mode.
+    '''
     def __init__(self, port):
         self.client = carla.Client('localhost', port)
         self.world = self.client.get_world()
@@ -15,6 +36,13 @@ class CarlaInit():
         self.spawn_points = self.world.get_map().get_spawn_points()
 
     def spawnActors(self, carName, numberOfActors):
+        '''
+            This function spawns the ego vehicle with name given by the parameter 'CarName',
+            as well as further 'numberOfActors' vehicles in the world.
+
+            carName = Ego vehicle name as in the carla blue prints library
+            numberOfActors: Number of actor vehicles to spawn in the world
+        '''
         self.ego = self.bp_lib.find(carName)
         self.ego = self.world.try_spawn_actor(self.ego, random.choice(self.spawn_points))
         for i in range(numberOfActors):
@@ -22,23 +50,48 @@ class CarlaInit():
             _ = self.world.try_spawn_actor(self.actor, random.choice(self.spawn_points))
 
     def spawnSensor(self, sensorName):
+        '''
+            This function spawns a sensor and attaches it to the ego vehicle.
+            In this case the sensor is an RGB camera.
+
+            sensorName = sensor name as in the carla blue prints library
+        '''
         self.sensorBlueprint = self.bp_lib.find(sensorName)
         self.cameraTrans = carla.Transform(carla.Location(z=2))
         self.sensor = self.world.try_spawn_actor(self.sensorBlueprint, self.cameraTrans, attach_to=self.ego)
 
     def callback(self, image):
+        '''
+            This function  collects the images from the RGB camera and saves them
+            in a global dictionary for further processing with the object detection
+            model.
+
+            image = image from RGB camera
+        '''
         global dataDict
         dataDict['image'] = np.reshape(np.copy(image.raw_data), (image.height, image.width, 4))
 
     def readSensor(self):
+        '''
+            This function listens to the RGB camera and calls the callback function
+            each time an image is availble.
+        '''
         self.sensor.listen(lambda image: self.callback(image))
 
     def launchCarla(self, carname, sensorName):
+        '''
+            This function spawns the ego vehicle alongside 30 vehicles in the world.
+            Then it spawns the RGB camera on the ego vehicle and collects the pictures
+            from the camera.
+        '''
         self.spawnActors(carname, 30)
         self.spawnSensor(sensorName)
         self.readSensor()
 
     def setActorstoAutopilot(self):
+        '''
+            This function sets all vehicles in autopilot mode.
+        '''
         for actor in self.world.get_actors().filter('*vehicle*'):
             actor.set_autopilot(True)
 
@@ -55,6 +108,7 @@ class ImageClassification():
         self.processedResults = {}
 
         self.carlainit = CarlaInit(2000)
+        print("Connection to carla server established")
 
     def classify(self, image):
         imWidth, imHeight, _ = np.asarray(image).shape
@@ -108,8 +162,8 @@ if __name__ == "__main__":
     carlainit = CarlaInit(2000)
     carlainit.launchCarla('vehicle.lincoln.mkz_2020', 'sensor.camera.rgb')
 
-    detectionThreshold = 0.65
+    detectionThreshold = 0.50
     tfhubModel = 'https://tfhub.dev/tensorflow/ssd_mobilenet_v2/fpnlite_640x640/1'
-    labelMapPath = './labels/mscoco_label_map.pbtxt'
+    labelMapPath = '/labels/mscoco_label_map.pbtxt' # Specify the full path to the labels folder
     onlineImageclassifier = ImageClassification(detectionThreshold, tfhubModel, labelMapPath)
     onlineImageclassifier.launchImageClassification()
