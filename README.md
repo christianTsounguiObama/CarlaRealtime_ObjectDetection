@@ -1,4 +1,4 @@
-# CarlaRealtime_ImageClassification
+# Carla Realtime Image Classification
 The aim of this script is to provide a template code to perform realtime image classification with Tensorflow.
 Here, the dynamic environment is simulated by Carla Simulator (0.9.15) and the object detection model trained on the 
 Coco dataset is fetched from TensorFlow hub (https://www.kaggle.com/models?publisher=tensorflow&tfhub-redirect=true). 
