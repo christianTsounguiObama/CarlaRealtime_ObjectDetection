@@ -1,5 +1,5 @@
-# Carla Realtime Image Classification
-The aim of this script is to provide a template code to perform realtime image classification with Tensorflow.
+# Carla Realtime Object Detection
+The aim of this script is to provide a template code to perform realtime object detection with Tensorflow.
 Here, the dynamic environment is simulated by Carla Simulator (0.9.15) and the object detection model trained on the 
 Coco dataset is fetched from TensorFlow hub (https://www.kaggle.com/models?publisher=tensorflow&tfhub-redirect=true). 
 
@@ -7,12 +7,12 @@ The script connects to carla server and spawns an ego vehicle and an RGB camera 
 Then, further vehicles, i.e., 30 are spawned at random in the scene. The object detection model is then loaded from 
 TensorFlow hub and run to detect the objects in the field of view of ego vehicle's RGB camera.
 
-A window shows the realtime image classification as seen by the camera.
+A window shows the realtime object detection as seen by the camera.
 
 ## Usage
-Once the carla server is up an running, the realtime classification is performed by running the command:
+Once the carla server is up an running, the realtime detection is performed by running the command:
 ```bash
-python3 carlaRealTime_ImageClassification.py
+python3 carlaRealTime_ObjectDetection.py
 ```
 ![carlaRealTime_ImageClassification2](https://github.com/christianTsounguiObama/CarlaRealtime_ImageClassification/assets/104940386/957adabd-f833-422a-b903-d303419b148c)
 
