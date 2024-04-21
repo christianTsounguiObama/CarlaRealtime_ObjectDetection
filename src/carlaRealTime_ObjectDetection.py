@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-    The aim of this script is to provide a template code to perform realtime image classification with Tensorflow.
+    The aim of this script is to provide a template code to perform realtime object detection with Tensorflow.
 Here, the dynamic environment is simulated by Carla Simulator (0.9.15) and the object detection model trained on the 
 Coco dataset is fetched from TensorFlow hub (https://www.kaggle.com/models?publisher=tensorflow&tfhub-redirect=true). 
 
@@ -9,9 +9,9 @@ The script connects to carla server and spawns an ego vehicle and an RGB camera 
 Then, further vehicles, i.e., 30 are spawned at random in the scene. The object detection model is then loaded from 
 TensorFlow hub and run to detect the objects in the field of view of ego vehicle's RGB camera.
 
-A window shows the realtime image classification as seen by the camera.
+A window shows the realtime object detection as seen by the camera.
 
-Usage: python3 carlaRealTime_ImageClassification.py
+Usage: python3 carlaRealTime_ObjectDetection.py
 '''
 
 import carla
@@ -25,7 +25,7 @@ import seaborn as sns
 
 class CarlaInit():
     '''
-        This class containins the methods needed to connect to the carla server,
+        This class contains the methods needed to connect to the carla server,
         spawn vehicles and the ego camera, and set the vehicles to carla default 
         autopilot mode.
     '''
