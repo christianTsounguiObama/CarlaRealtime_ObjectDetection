@@ -110,6 +110,6 @@ if __name__ == "__main__":
 
     detectionThreshold = 0.65
     tfhubModel = 'https://tfhub.dev/tensorflow/ssd_mobilenet_v2/fpnlite_640x640/1'
-    labelMapPath = '/home/christian/Documents/Artifitial_Intelligence/ADAS/models/research/object_detection/data/mscoco_label_map.pbtxt'
+    labelMapPath = './labels/mscoco_label_map.pbtxt'
     onlineImageclassifier = ImageClassification(detectionThreshold, tfhubModel, labelMapPath)
     onlineImageclassifier.launchImageClassification()
