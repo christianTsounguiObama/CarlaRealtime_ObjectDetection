@@ -14,6 +14,7 @@ Once the carla server is up an running, the realtime classification is performed
 ```bash
 python3 carlaRealTime_ImageClassification.py
 ```
+![carlaRealTime_ImageClassification2](https://github.com/christianTsounguiObama/CarlaRealtime_ImageClassification/assets/104940386/957adabd-f833-422a-b903-d303419b148c)
 
 ## Python version and packages
 The code was written and tested with Python 3.10.12, TensorFlow GPU, and Carla 0.9.15 on docker. To run the code, 
